@@ -43,6 +43,9 @@
     player.ondurationchange = function(duration) {
       __log('duration:' + duration);
     };
+    player.onerror = function(msg) {
+      __log('error:' + msg);
+    };
   }
 
   function pause(button) {

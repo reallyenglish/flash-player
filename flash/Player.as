@@ -100,6 +100,7 @@ package
     }
 
     private function errorHandler(event:IOErrorEvent):void {
+      triggerEvent('error', 'Audio file('+source+') is not available');
     }
 
     protected function pause():void
