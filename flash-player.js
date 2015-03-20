@@ -15,6 +15,7 @@ var FlashPlayer = function(options) {
 FlashPlayer.instance = null;
 
 FlashPlayer.getInstance = function(options) {
+  options = options || {swfSrc: 'scripts/player.swf'};
   if (!FlashPlayer.instance) {
     FlashPlayer.instance = new FlashPlayer(options);
   }
@@ -71,6 +72,11 @@ FlashPlayer.prototype._showFlashRequiredDialog = function() {
   this._showFlash();
 };
 
+FlashPlayer.prototype._showFlash = function() {
+  this.flashContainer.style.left   = ((window.innerWidth  || document.body.offsetWidth)  / 2) - 115 + "px";
+  this.flashContainer.style.top    = ((window.innerHeight || document.body.offsetHeight) / 2) - 70  + "px";
+};
+
 FlashPlayer.prototype._loadFlash = function() {
   var flashElement = document.createElement("div");
   flashElement.setAttribute("id", "playerFlashObject");
@@ -99,6 +105,10 @@ FlashPlayer.prototype.getDuration = function() {
 
 FlashPlayer.prototype.getPosition = function() {
   return this.flashInterface().playPosition()/1000;
+};
+
+FlashPlayer.prototype.seekTo = function(position) {
+  return this.flashInterface().seekTo(position*1000);
 };
 
 FlashPlayer.prototype.pause = function() {

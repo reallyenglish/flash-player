@@ -35,6 +35,7 @@ package
       ExternalInterface.addCallback("stopPlayback",      this.stop);
       ExternalInterface.addCallback("pausePlay",      this.pause);
       ExternalInterface.addCallback("playPosition",          this.getPosition);
+      ExternalInterface.addCallback("seekTo",          this.seekTo);
       ExternalInterface.addCallback("startPlay",          this.play);
       ExternalInterface.addCallback("playDuration",     this.playDuration);
 
@@ -49,7 +50,7 @@ package
     protected var sound:Sound;
     protected var channel:SoundChannel;
     protected var duration:int = 0;
-    protected var pausePostion:int = 0;
+    protected var currentPostion:int = 0;
     private var playerInstance:String;
     private var source:String;
     private var req:URLRequest;
@@ -59,7 +60,7 @@ package
       trace('startPlaying');
       if (url && source != url) {
         source = url;
-        pausePostion = 0;
+        currentPostion = 0;
         duration = 0;
         req = new URLRequest(source);
         sound = new Sound();
@@ -72,7 +73,7 @@ package
           triggerEvent('durationchange', sound.length);
         });
       }
-      channel = sound.play(pausePostion);
+      channel = sound.play(currentPostion);
       isPlaying = true;
       isPaused = false;
       channel.addEventListener(Event.SOUND_COMPLETE, function(){
@@ -89,6 +90,7 @@ package
       trace('stopPlaying');
       if(channel){
         channel.stop();
+        currentPostion = 0;
         isPaused = false;
         isPlaying = false;
       }
@@ -107,7 +109,7 @@ package
     {
       trace('pausePlaying');
       if(channel){
-        pausePostion = channel.position;
+        currentPostion = channel.position;
         channel.stop();
         isPaused = true;
         isPlaying = false;
@@ -119,12 +121,21 @@ package
       return duration;
     }
 
+    protected function seekTo(position:int):void
+    {
+      if (position < 0 || position > duration) {
+        return;
+      }
+      currentPostion = position;
+    }
+
     protected function getPosition():int
     {
-      if (channel) {
-        return int(this.channel.position);
+      if (channel && isPlaying) {
+        currentPostion = this.channel.position;
       }
-      return null;
+
+      return currentPostion;
     }
 
     protected function triggerEvent(eventName:String, arg0=null, arg1 = null):void
