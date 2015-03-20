@@ -89,7 +89,7 @@ FlashPlayer.prototype._flashLoaded = function(e) {
 };
 
 FlashPlayer.prototype.play = function(url) {
-  this.flashInterface().play(url);
+  this.flashInterface().startPlay(url);
   this.ended = false;
 };
 
@@ -102,19 +102,19 @@ FlashPlayer.prototype.getPosition = function() {
 };
 
 FlashPlayer.prototype.pause = function() {
-  this.flashInterface().pause();
+  this.flashInterface().pausePlay();
 };
 
 FlashPlayer.prototype.stop = function() {
-  this.flashInterface().stop();
+  this.flashInterface().stopPlayback();
 };
 
 FlashPlayer.prototype.flashInterface = function() {
   if(!this.swfObject){
     return null;
-  }else if(this.swfObject.play){
+  }else if(this.swfObject.startPlay){
     return this.swfObject;
-  }else if(this.swfObject.children[3].play){
+  }else if(this.swfObject.children[3].startPlay){
     return this.swfObject.children[3];
   }
 };

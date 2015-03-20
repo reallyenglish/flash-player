@@ -31,11 +31,11 @@ package
     }
 
     public function addExternalInterfaceCallbacks():void {
-      ExternalInterface.addCallback("isPlaying",     this.inPlaying);
-      ExternalInterface.addCallback("stop",      this.stop);
-      ExternalInterface.addCallback("pause",      this.pause);
+      ExternalInterface.addCallback("inPlaying",     this.inPlaying);
+      ExternalInterface.addCallback("stopPlayback",      this.stop);
+      ExternalInterface.addCallback("pausePlay",      this.pause);
       ExternalInterface.addCallback("playPosition",          this.getPosition);
-      ExternalInterface.addCallback("play",          this.play);
+      ExternalInterface.addCallback("startPlay",          this.play);
       ExternalInterface.addCallback("playDuration",     this.playDuration);
 
 
