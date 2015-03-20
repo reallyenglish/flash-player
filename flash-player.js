@@ -153,3 +153,6 @@ FlashPlayer.prototype._onError = function _onError(msg) {
     this.onerror(msg);
   }
 };
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = FlashPlayer;
+}
