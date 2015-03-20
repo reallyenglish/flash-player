@@ -134,8 +134,8 @@ FlashPlayer.prototype.triggerEvent = function(eventName, arg0, arg1){
 };
 
 FlashPlayer.prototype._onEnded = function _onEnded() {
-  if (this.onend) {
-    this.onend();
+  if (this.onended) {
+    this.onended();
   }
 };
 

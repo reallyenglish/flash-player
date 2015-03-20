@@ -23,20 +23,13 @@
     log.innerHTML += "\n" + e + " " + (data || '');
   }
 
-  function record(button) {
-    player && player.record();
-    button.disabled = true;
-    button.nextElementSibling.disabled = false;
-    __log('Recording...');
-  }
-
   function playback(button) {
     _start = new Date();
     player && player.play('http://demos.w3avenue.com/html5-unleashed-tips-tricks-and-techniques/demo-audio.mp3');
     button.disabled = true;
-    button.previousElementSibling.disabled = false;
-    button.nextElementSibling.disabled = false;
-    __log('start playing. duration:' +  player.getDuration());
+    stopBtn.disabled = false;
+    pauseBtn.disabled = false;
+    __log('start playing.');
     player.onended = function() {
       __log('play ended.');
     };
@@ -51,6 +44,13 @@
   function pause(button) {
     player && player.pause();
     _paused = true;
+    playBtn.disabled = false;
+  }
+
+  function stop(button) {
+    player && player.stop();
+    _paused = false;
+    button.disabled = true;
     playBtn.disabled = false;
   }
 
