@@ -100,15 +100,15 @@ FlashPlayer.prototype.play = function(url) {
 };
 
 FlashPlayer.prototype.getDuration = function() {
-  this.flashInterface().playDuration();
+  return this.flashInterface().playDuration();
 };
 
 FlashPlayer.prototype.getPosition = function() {
-  return this.flashInterface().playPosition()/1000;
+  return this.flashInterface().playPosition();
 };
 
 FlashPlayer.prototype.seekTo = function(position) {
-  return this.flashInterface().seekTo(position*1000);
+  return this.flashInterface().seekTo(position);
 };
 
 FlashPlayer.prototype.pause = function() {
@@ -154,7 +154,7 @@ FlashPlayer.prototype._onEnded = function _onEnded() {
 
 FlashPlayer.prototype._onDurationChange = function _onDurationChange(duration) {
   if (this.ondurationchange) {
-    this.ondurationchange(duration/1000);
+    this.ondurationchange(duration);
   }
 };
 
