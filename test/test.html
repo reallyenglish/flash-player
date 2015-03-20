@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Live input record and playback</title>
+</head>
+<body>
+
+  <h1>Media record test</h1>
+  <button id="playBtn" onclick="playback(this);">play</button>
+  <button id="pauseBtn" onclick="pause(this);" disabled>pause</button>
+  <button id="stopBtn" onclick="stop(this);" disabled>stop</button>
+  <h2>Log</h2>
+  <pre id="log"></pre>
+
+  <script src="../flash-player.js"></script>
+  <script>
+  window.URL = window.URL || window.webkitURL;
+  var _start = null;
+  var _paused = false;
+  function __log(e, data) {
+    log.innerHTML += "\n" + e + " " + (data || '');
+  }
+
+  function record(button) {
+    player && player.record();
+    button.disabled = true;
+    button.nextElementSibling.disabled = false;
+    __log('Recording...');
+  }
+
+  function playback(button) {
+    _start = new Date();
+    player && player.play('http://demos.w3avenue.com/html5-unleashed-tips-tricks-and-techniques/demo-audio.mp3');
+    button.disabled = true;
+    button.previousElementSibling.disabled = false;
+    button.nextElementSibling.disabled = false;
+    __log('start playing. duration:' +  player.getDuration());
+    player.onended = function() {
+      __log('play ended.');
+    };
+    player.ondurationchange = function(duration) {
+      __log('duration:' + duration);
+    };
+  }
+
+  function pause(button) {
+    player && player.pause();
+    _paused = true;
+    playBtn.disabled = false;
+  }
+
+  window.onload = function init() {
+    player = FlashPlayer.getInstance({swfSrc: '../player.swf'});
+    __log('player initialised.');
+  };
+  </script>
+</body>
+</html>
