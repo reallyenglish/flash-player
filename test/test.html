@@ -11,6 +11,7 @@
   <button id="playBtn" onclick="playback(this);">play</button>
   <button id="pauseBtn" onclick="pause(this);" disabled>pause</button>
   <button id="stopBtn" onclick="stop(this);" disabled>stop</button>
+  <input type="text" id="audioPosition"></input>
   <h2>Log</h2>
   <pre id="log"></pre>
 
@@ -19,8 +20,16 @@
   window.URL = window.URL || window.webkitURL;
   var _start = null;
   var _paused = false;
+  var interval = null;
   function __log(e, data) {
     log.innerHTML += "\n" + e + " " + (data || '');
+  }
+
+  function updatePosition() {
+    audioPosition.value = player.getPosition();
+    if (player.ended) {
+      clearInterval(interval);
+    }
   }
 
   function playback(button) {
@@ -39,12 +48,14 @@
     player.onerror = function(msg) {
       __log('error:' + msg);
     };
+    interval = setInterval(updatePosition, 1000);
   }
 
   function pause(button) {
     player && player.pause();
     _paused = true;
     playBtn.disabled = false;
+    clearInterval(interval);
   }
 
   function stop(button) {
@@ -52,6 +63,7 @@
     _paused = false;
     button.disabled = true;
     playBtn.disabled = false;
+    clearInterval(interval);
   }
 
   window.onload = function init() {

@@ -26,6 +26,7 @@ FlashPlayer.prototype.initialize = function(cfg) {
   window['flashPlayer'] = this;
   this._events = [];
   this._initialized = false;
+  this.ended = false;
   this.swfSrc = 'player.swf';
   if (cfg.swfSrc) {
     this.swfSrc = cfg.swfSrc;
@@ -89,6 +90,7 @@ FlashPlayer.prototype._flashLoaded = function(e) {
 
 FlashPlayer.prototype.play = function(url) {
   this.flashInterface().play(url);
+  this.ended = false;
 };
 
 FlashPlayer.prototype.getDuration = function() {
@@ -96,7 +98,7 @@ FlashPlayer.prototype.getDuration = function() {
 };
 
 FlashPlayer.prototype.getPosition = function() {
-  this.flashInterface().playPosition();
+  return this.flashInterface().playPosition()/1000;
 };
 
 FlashPlayer.prototype.pause = function() {
@@ -134,6 +136,7 @@ FlashPlayer.prototype.triggerEvent = function(eventName, arg0, arg1){
 };
 
 FlashPlayer.prototype._onEnded = function _onEnded() {
+  this.ended = true;
   if (this.onended) {
     this.onended();
   }
